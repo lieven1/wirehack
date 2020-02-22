@@ -7,7 +7,7 @@
 </head>
 <body onload="createDot()">
 
-    <div id="background" style="background: url('kaartKortrijk.PNG'); width:1000px; height: 1000px; position: relative;">
+    <div id="background" style="background-image: url('kaartKortrijk.PNG'); background-repeat: no-repeat; width:1000px; height: 1000px; position: relative;">
     </div>
 
     <script>
@@ -33,6 +33,7 @@
                 document.getElementById("background").appendChild(dotNode);
             }
             updateDots();
+            colorGrid();
         }
 
         function updateDots(){
@@ -54,6 +55,20 @@
 
         function randomIntFromInterval(min, max) { // min and max included
             return Math.floor(Math.random() * (max - min + 1) + min);
+        }
+
+        function colorGrid(){
+            for (i = 0; i < 10; i++) {
+                for (j = 0; j < 10; j++) {
+                    let gridNode = document.createElement("img");
+                    gridNode.src = 'red.png';
+                    let style = "position: absolute; top:" + i*100 + "px; left:" + j*100 + "px; width:100px; height:100px; opacity:0.30;";
+                    gridNode.style = style;
+                    gridNode.id = "grid"+i+"-"+j;
+                    document.getElementById("background").appendChild(gridNode);
+
+                }
+            }
         }
     </script>
 </body>

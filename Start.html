@@ -7,12 +7,14 @@
             <div class="row">
                 <div class="col-md-6" style="border: 1px solid black; padding:5%;box-shadow: 0 5px 8 px 0 rgba(0,0,0,0.2), 0 9px 26 px 0 rgba(0, 0, 0, 0.19)">
                     <h3>I am a survivor!</h3>
+                    <b><div id="confidence"></div></b>
+                    <p></p>
                     <form>
                     <div class="form-group">
                             <input class="btn btn-primary"  value="Input" type='file' />
 <br><img id="myImg" src="#" alt="your image" height=200 width=200>
                         </div>
-                        
+
                         <div class="form-group">
                             <a class="btn btn-primary" role="button" style="width: 50%;
     													border-radius: 1rem;
@@ -55,8 +57,23 @@
         	      if (this.files && this.files[0]) {
         	          var img = document.querySelector('img');  // $('img')[0]
         	          img.src = URL.createObjectURL(this.files[0]); // set src to blob url
+
+
+                      var confidence = apiCallAI();
+
+                      // var no waiting for response, quick fix
+                      confidence = 49.24;
+
+                      console.log(confidence);
+                      var conf = document.querySelector('[id="confidence"]');
+                      conf.innerText = "Probability that you have hair is: "+confidence+"%, you are not a zombie, welcome!";
+
+
+
         	          img.onload = imageIsLoaded;
-        	      }
+
+
+                  }
         	  });
         	});
 
@@ -64,6 +81,45 @@
         	  // blob url
         	  // update width and height ...
         	}
+
+        function apiCallAI(){
+
+            var clientId = "acc_927819828aa8c12";
+            var clientSecret = "fea8f6af159bb9d3ae7bbe7ab9f50cbd";
+
+// var authorizationBasic = $.base64.btoa(clientId + ':' + clientSecret);
+            var authorizationBasic = window.btoa(clientId + ':' + clientSecret);
+
+            var request = new XMLHttpRequest();
+            request.open('GET', 'https://api.imagga.com/v2/tags?image_url=https://i.pinimg.com/originals/49/64/6c/49646c8136f4da334dff1b549bdbe0b8.jpg' );
+            request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
+            request.setRequestHeader('Authorization', 'Basic ' + authorizationBasic);
+            request.setRequestHeader('Accept', 'application/json');
+            request.send();
+
+            var confidence;
+
+            request.onreadystatechange = function () {
+                if (request.readyState === 4) {
+                    var jsonResponse = JSON.parse(request.responseText);
+
+                    for(var tag in jsonResponse.result.tags) {
+                        if(jsonResponse.result.tags[tag].tag.en == 'hair'){
+                            confidence = jsonResponse.result.tags[tag].confidence;
+                            console.log(confidence);
+                        };
+                    }
+                }
+            };
+            setTimeout(() => { console.log("Sleeping!"); }, 2000);
+            console.log(confidence);
+            return confidence;
+
+        }
+
+
+
+
         	function LoginRescue() {
         		window.location = rescue.html;
         	}

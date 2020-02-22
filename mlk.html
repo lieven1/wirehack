@@ -7,58 +7,108 @@
 </head>
 <body onload="createDot()">
 
-<div id="background" style="background-image: url('kaartKortrijk.PNG'); background-repeat: no-repeat; width:1000px; height: 1000px; position: relative;">
+<div id="kaart2" style="background-image: url('kaartKortrijk.PNG'); display: inline-block; background-repeat: no-repeat; width:1000px; height: 1000px; position: relative;">
 </div>
 
+<div id="kaart1" style="background-image: url('kaartKortrijk.PNG'); display: inline-block; background-repeat: no-repeat; width:1000px; height: 1000px; position: relative;">
+<canvas id="canvas" style="position: absolute; top: 0px; left: 0px;" width= 1000 height= 10000></canvas>
+</div>
+
+
+
+
 <script>
-    let aantalDots = 100;
+    let aantalDots = 500;
     let x_min = 0;
     let y_min = 0;
     let x_max = 1000;
     let y_max = 1000;
+    
+    var c = document.getElementById("canvas");
+    var ctx = c.getContext("2d");
 
     function createDot() {
         for (i = 0; i < aantalDots*0.85; i++) {
-            let dotNode = document.createElement("img");
-            dotNode.src = 'dot.png';
+            let dotNode1 = document.createElement("img");
+            let dotNode2 = document.createElement("img");
+            dotNode1.src = 'dot.png';
+            dotNode2.src = 'dot.png';
             let x = randomIntFromInterval(x_min, x_max);
             let y = randomIntFromInterval(y_min, y_max);
             let style = "position: absolute; top:"+x+"px; left:"+y+"px; width:10px; height:10px;";
-            dotNode.style = style;
-            dotNode.id = "dot"+i;
-            document.getElementById("background").appendChild(dotNode);
+            dotNode1.style = style;
+            dotNode2.style = style;
+            dotNode1.id = "dotA"+i;
+            dotNode2.id = "dotB"+i;
+            document.getElementById("kaart1").appendChild(dotNode1);
+            document.getElementById("kaart2").appendChild(dotNode2);
         }
 
         for (i = aantalDots*0.85; i < aantalDots; i++) {
-            let dotNode = document.createElement("img");
-            dotNode.src = 'dotgreen.png';
+            let dotNode1 = document.createElement("img");
+            let dotNode2 = document.createElement("img");
+            dotNode1.src = 'dotgreen.png';
+            dotNode2.src = 'dotgreen.png';
             let x = randomIntFromInterval(x_min, x_max);
             let y = randomIntFromInterval(y_min, y_max);
             let style = "position: absolute; top:"+x+"px; left:"+y+"px; width:10px; height:10px;";
-            dotNode.style = style;
-            dotNode.id = "dot"+i;
-            document.getElementById("background").appendChild(dotNode);
+            dotNode1.style = style;
+            dotNode2.style = style;
+            dotNode1.id = "dotA"+i;
+            dotNode2.id = "dotB"+i;
+            document.getElementById("kaart1").appendChild(dotNode1);
+            document.getElementById("kaart2").appendChild(dotNode2);
+            
+            ctx.beginPath();
+            ctx.arc(y, x, 20, 0, 2 * Math.PI);
+            ctx.stroke();
         }
+        
         updateDots();
         colorGrid();
     }
 
     function updateDots(){
-        for (i = 0; i < aantalDots; i++) {
-            let top = document.getElementById("dot"+i).style.top;
+        for (i = 0; i < aantalDots*0.85; i++) {
+            let top = document.getElementById("dotB"+i).style.top;
             let topWithoutpx = top.substring(0, top.length - 2);
-            let left = document.getElementById("dot"+i).style.left;
+            let left = document.getElementById("dotB"+i).style.left;
             let leftWithoutpx = left.substring(0, top.length - 2);
-            let x = randomIntFromInterval(-5,5);
-            let y = randomIntFromInterval(-5,5);
+            let x = randomIntFromInterval(-3,3);
+            let y = randomIntFromInterval(-3,3);
             let updatedTop = parseFloat(topWithoutpx) + parseFloat(x);
             if (updatedTop>0 && updatedTop<y_max){
-                document.getElementById("dot"+i).style.top=updatedTop+"px";
+            	document.getElementById("dotA"+i).style.top=updatedTop+"px";
+                document.getElementById("dotB"+i).style.top=updatedTop+"px";
             }
             let updatedLeft = parseFloat(leftWithoutpx) + parseFloat(y);
             if (updatedLeft>0 && updatedLeft<x_max){
-                document.getElementById("dot"+i).style.left=updatedLeft+"px";
+            	document.getElementById("dotA"+i).style.left=updatedLeft+"px";
+                document.getElementById("dotB"+i).style.left=updatedLeft+"px";
             }
+        }
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        for (i = aantalDots*0.85; i < aantalDots; i++) {
+            let top = document.getElementById("dotB"+i).style.top;
+            let topWithoutpx = top.substring(0, top.length - 2);
+            let left = document.getElementById("dotB"+i).style.left;
+            let leftWithoutpx = left.substring(0, top.length - 2);
+            let x = randomIntFromInterval(-3,3);
+            let y = randomIntFromInterval(-3,3);
+            let updatedTop = parseFloat(topWithoutpx) + parseFloat(x);
+            if (updatedTop>0 && updatedTop<y_max){
+            	document.getElementById("dotA"+i).style.top=updatedTop+"px";
+                document.getElementById("dotB"+i).style.top=updatedTop+"px";
+            }
+            let updatedLeft = parseFloat(leftWithoutpx) + parseFloat(y);
+            if (updatedLeft>0 && updatedLeft<x_max){
+            	document.getElementById("dotA"+i).style.left=updatedLeft+"px";
+                document.getElementById("dotB"+i).style.left=updatedLeft+"px";
+            }
+            
+            ctx.beginPath();
+            ctx.arc(updatedLeft, updatedTop, 20, 0, 2 * Math.PI);
+            ctx.stroke();
         }
 
         setTimeout(updateDots, 1000);
@@ -71,14 +121,15 @@
     function colorGrid(){
 
         var grids = document.querySelectorAll("[id^='grid']");
-        grids.forEach(grids => {document.getElementById("background").removeChild(grids)});
+        grids.forEach(grids => {document.getElementById("kaart2").removeChild(grids)});
 
-
-        for (i = 0; i < 10; i++) {
-            for (j = 0; j < 10; j++) {
+	 	let aantal_x = 20;
+	 	let aantal_y = 20;
+        for (i = 0; i < aantal_x; i++) {
+            for (j = 0; j < aantal_y; j++) {
                 let gridNode = document.createElement("img");
                 
-                let style = "position: absolute; top:" + i*100 + "px; left:" + j*100 + "px; width:100px; height:100px; opacity:0.30;";
+                let style = "position: absolute; top:" + i*(1000/aantal_x) + "px; left:" + j*(1000/aantal_y) + "px; width:" + 1000/aantal_x + "px; height:" + 1000/aantal_y + "px; opacity:0.30;";
                 gridNode.style = style;
                 gridNode.id = "grid"+i+"-"+j;
 
@@ -86,22 +137,22 @@
                 for (k = 0; k < aantalDots*0.85; k++) {
                     
 
-                    let top = document.getElementById("dot"+k).style.top;
+                    let top = document.getElementById("dotB"+k).style.top;
                     let topWithoutpx = parseFloat(top.substring(0, top.length - 2));
-                    let left = document.getElementById("dot"+k).style.left;
+                    let left = document.getElementById("dotB"+k).style.left;
                     let leftWithoutpx = parseFloat(left.substring(0, top.length - 2));
 
-                    if (topWithoutpx<(i+1)*100 && topWithoutpx>i*100 && leftWithoutpx<(j+1)*100 && leftWithoutpx >j*100){
+                    if (topWithoutpx<(i+1)* 1000/aantal_x && topWithoutpx>i*1000/aantal_x && leftWithoutpx<(j+1)*1000/aantal_y && leftWithoutpx >j*1000/aantal_y){
                         bool=true;
                     }
                     
                 }
                 if (bool == true) {
                 	gridNode.src = 'red.png';
-                    document.getElementById("background").appendChild(gridNode);
+                    document.getElementById("kaart2").appendChild(gridNode);
                 } else {
                 	gridNode.src = 'green.jpg';
-                    document.getElementById("background").appendChild(gridNode);
+                    document.getElementById("kaart2").appendChild(gridNode);
                 }
                 console.error(bool);
 

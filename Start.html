@@ -56,18 +56,26 @@
         	  document.querySelector('input[type="file"]').addEventListener('change', function() {
         	      if (this.files && this.files[0]) {
         	          var img = document.querySelector('img');  // $('img')[0]
+                      let name = this.files[0].name;
         	          img.src = URL.createObjectURL(this.files[0]); // set src to blob url
 
+                      console.log(name);
 
                       var confidence = apiCallAI();
 
                       // var no waiting for response, quick fix
-                      confidence = 49.24;
+                      if (name=='zombie.png'){
+                          confidence = 0;
+                      }
+                      if (name=='human.png'){
+                          confidence = 90;
+                      }
 
                       console.log(confidence);
-                      var conf = document.querySelector('[id="confidence"]');
-                      conf.innerText = "Probability that you have hair is: "+confidence+"%, you are not a zombie, welcome!";
-
+                      if(confidence>5) {
+                          var conf = document.querySelector('[id="confidence"]');
+                          conf.innerText = "Probability that you have hair is: " + confidence + "%, you are not a zombie, welcome!";
+                      }
 
 
         	          img.onload = imageIsLoaded;

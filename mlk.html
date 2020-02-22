@@ -7,7 +7,7 @@
 </head>
 <body onload="createDot()">
 
-    <div id="background" style="background: url('kaartKortrijk.PNG  '); width:1201px; height: 700px; position: relative;">
+    <div id="background" style="background: url('kaartKortrijk.PNG'); width:1000px; height: 1000px; position: relative;">
     </div>
 
     <script>
@@ -15,9 +15,9 @@
             for (i = 0; i < 85; i++) {
                 let dotNode = document.createElement("img");
                 dotNode.src = 'dot.png';
-                let x = randomIntFromInterval(10,1200);
-                let y = randomIntFromInterval(10,690);
-                let style = "position: relative; top:"+x+"px; left:"+y+"px; width:10px; height:10px;";
+                let x = randomIntFromInterval(10,1000);
+                let y = randomIntFromInterval(10,1000);
+                let style = "position: absolute; top:"+x+"px; left:"+y+"px; width:10px; height:10px;";
                 dotNode.style = style;
                 dotNode.id = "dot"+i;
                 document.getElementById("background").appendChild(dotNode);
@@ -25,9 +25,9 @@
             for (i = 85; i < 100; i++) {
                 let dotNode = document.createElement("img");
                 dotNode.src = 'dotgreen.png';
-                let x = randomIntFromInterval(10,1200);
-                let y = randomIntFromInterval(10,690);
-                let style = "position: relative; top:"+x+"px; left:"+y+"px; width:10px; height:10px;";
+                let x = randomIntFromInterval(10,1000);
+                let y = randomIntFromInterval(10,1000);
+                let style = "position: absolute; top:"+x+"px; left:"+y+"px; width:10px; height:10px;";
                 dotNode.style = style;
                 dotNode.id = "dot"+i;
                 document.getElementById("background").appendChild(dotNode);

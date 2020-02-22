@@ -8,7 +8,6 @@
 <body onload="createDot()">
 
     <div id="background" style="background: url('kaartKortrijk.PNG  '); width:1201px; height: 700px; position: relative;">
-        <img src="dot.png" style="position: relative; top:264px; left:258px; width:10px; height:10px;">
     </div>
 
     <script>
@@ -20,7 +19,7 @@
                 let y = randomIntFromInterval(10,690);
                 let style = "position: relative; top:"+x+"px; left:"+y+"px; width:10px; height:10px;";
                 dotNode.style = style;
-                dotNode.id = i
+                dotNode.id = "dot"+i;
                 document.getElementById("background").appendChild(dotNode);
             }
             for (i = 85; i < 100; i++) {
@@ -30,16 +29,27 @@
                 let y = randomIntFromInterval(10,690);
                 let style = "position: relative; top:"+x+"px; left:"+y+"px; width:10px; height:10px;";
                 dotNode.style = style;
-                dotNode.id = i
+                dotNode.id = "dot"+i;
                 document.getElementById("background").appendChild(dotNode);
             }
             updateDots();
         }
 
         function updateDots(){
-                // do whatever you like here
+            for (i = 0; i < 100; i++) {
+                let top = document.getElementById("dot"+i).style.top;
+                let topWithoutpx = top.substring(0, top.length - 2);
+                let left = document.getElementById("dot"+i).style.left;
+                let leftWithoutpx = left.substring(0, top.length - 2);
+                let x = randomIntFromInterval(-5,5);
+                let y = randomIntFromInterval(-5,5);
+                let updatedTop = parseFloat(topWithoutpx) + parseFloat(x);
+                let updatedLeft = parseFloat(leftWithoutpx) + parseFloat(y);
+                document.getElementById("dot"+i).style.top=updatedTop+"px";
+                document.getElementById("dot"+i).style.left=updatedLeft+"px";
+            }
 
-                setTimeout(updateDots, 5000);
+                setTimeout(updateDots, 1000);
         }
 
         function randomIntFromInterval(min, max) { // min and max included

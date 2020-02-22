@@ -45,9 +45,13 @@
                 let x = randomIntFromInterval(-5,5);
                 let y = randomIntFromInterval(-5,5);
                 let updatedTop = parseFloat(topWithoutpx) + parseFloat(x);
+                if (updatedTop>0){
+                    document.getElementById("dot"+i).style.top=updatedTop+"px";
+                }
                 let updatedLeft = parseFloat(leftWithoutpx) + parseFloat(y);
-                document.getElementById("dot"+i).style.top=updatedTop+"px";
-                document.getElementById("dot"+i).style.left=updatedLeft+"px";
+                if (updatedLeft>0){
+                    document.getElementById("dot"+i).style.left=updatedLeft+"px";
+                }
             }
 
                 setTimeout(updateDots, 1000);

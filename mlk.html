@@ -77,14 +77,14 @@
         for (i = 0; i < 10; i++) {
             for (j = 0; j < 10; j++) {
                 let gridNode = document.createElement("img");
-                gridNode.src = 'red.png';
+                
                 let style = "position: absolute; top:" + i*100 + "px; left:" + j*100 + "px; width:100px; height:100px; opacity:0.30;";
                 gridNode.style = style;
                 gridNode.id = "grid"+i+"-"+j;
 
-
+                var bool = false;
                 for (k = 0; k < aantalDots*0.85; k++) {
-                    var bool = false;
+                    
 
                     let top = document.getElementById("dot"+k).style.top;
                     let topWithoutpx = parseFloat(top.substring(0, top.length - 2));
@@ -94,9 +94,14 @@
                     if (topWithoutpx<(i+1)*100 && topWithoutpx>i*100 && leftWithoutpx<(j+1)*100 && leftWithoutpx >j*100){
                         bool=true;
                     }
-                    if (bool == true) {
-                        document.getElementById("background").appendChild(gridNode);
-                    }
+                    
+                }
+                if (bool == true) {
+                	gridNode.src = 'red.png';
+                    document.getElementById("background").appendChild(gridNode);
+                } else {
+                	gridNode.src = 'green.jpg';
+                    document.getElementById("background").appendChild(gridNode);
                 }
                 console.error(bool);
 

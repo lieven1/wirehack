@@ -12,22 +12,28 @@
     </div>
 
     <script>
+    	let aantalDots = 100;
+    	let x_min = 10;
+    	let y_min= 10;
+    	let x_max = 1000;
+    	let y_max = 1000;
+    	
         function createDot() {
-            for (i = 0; i < 85; i++) {
+            for (i = 0; i < 0.85*aantalDots; i++) {
                 let dotNode = document.createElement("img");
                 dotNode.src = 'dot.png';
-                let x = randomIntFromInterval(10,1000);
-                let y = randomIntFromInterval(10,1000);
+                let x = randomIntFromInterval(x_min, x_max);
+                let y = randomIntFromInterval(x_min, x_max);
                 let style = "position: absolute; top:"+x+"px; left:"+y+"px; width:10px; height:10px;";
                 dotNode.style = style;
                 dotNode.id = "dot"+i;
                 document.getElementById("background").appendChild(dotNode);
             }
-            for (i = 85; i < 100; i++) {
+            for (i = 0.85*aantalDots; i < aantalDots; i++) {
                 let dotNode = document.createElement("img");
                 dotNode.src = 'dotgreen.png';
-                let x = randomIntFromInterval(10,1000);
-                let y = randomIntFromInterval(10,1000);
+                let x = randomIntFromInterval(x_min, x_max);
+                let y = randomIntFromInterval(x_min, x_max);
                 let style = "position: absolute; top:"+x+"px; left:"+y+"px; width:10px; height:10px;";
                 dotNode.style = style;
                 dotNode.id = "dot"+i;
@@ -38,7 +44,7 @@
         }
 
         function updateDots(){
-            for (i = 0; i < 100; i++) {
+            for (i = 0; i < aantalDots; i++) {
                 let top = document.getElementById("dot"+i).style.top;
                 let topWithoutpx = top.substring(0, top.length - 2);
                 let left = document.getElementById("dot"+i).style.left;
@@ -46,11 +52,11 @@
                 let x = randomIntFromInterval(-5,5);
                 let y = randomIntFromInterval(-5,5);
                 let updatedTop = parseFloat(topWithoutpx) + parseFloat(x);
-                if (updatedTop>0 && updatedTop<1000){
+                if (updatedTop>0 && updatedTop<y_max){
                     document.getElementById("dot"+i).style.top=updatedTop+"px";
                 }
                 let updatedLeft = parseFloat(leftWithoutpx) + parseFloat(y);
-                if (updatedLeft>0 && updatedLeft<1000){
+                if (updatedLeft>0 && updatedLeft<x_max){
                     document.getElementById("dot"+i).style.left=updatedLeft+"px";
                 }
             }
@@ -66,10 +72,13 @@
 
             var grids = document.querySelectorAll("[id^='grid']");
             grids.forEach(grids => {document.getElementById("background").removeChild(grids)});
+           	
+            let x_grid = 10;
+            let y_grid = 10;
 
 
-            for (i = 0; i < 10; i++) {
-                for (j = 0; j < 10; j++) {
+            for (i = 0; i < x_grid; i++) {
+                for (j = 0; j < y_grid; j++) {
                     let gridNode = document.createElement("img");
                     gridNode.src = 'red.png';
                     let style = "position: absolute; top:" + i*100 + "px; left:" + j*100 + "px; width:100px; height:100px; opacity:0.30;";
@@ -77,7 +86,7 @@
                     gridNode.id = "grid"+i+"-"+j;
 
 
-                    for (k = 0; k < 85; k++) {
+                    for (k = 0; k < 0.85*aantalDots; k++) {
                         var bool = false;
 
                         let top = document.getElementById("dot"+k).style.top;

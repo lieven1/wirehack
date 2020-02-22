@@ -76,6 +76,10 @@
                           var conf = document.querySelector('[id="confidence"]');
                           conf.innerText = "Probability that you have hair is: " + confidence + "%, you are not a zombie, welcome!";
                       }
+                      if(confidence<5){
+                          var conf = document.querySelector('[id="confidence"]');
+                          conf.innerText = "Probability that you have hair is: " + confidence + "%, you are a zombie!";
+                      }
 
 
         	          img.onload = imageIsLoaded;

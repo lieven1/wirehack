@@ -1,21 +1,66 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>Zombie maps</title>
+
+  <!-- Bootstrap core CSS -->
+  <link href="css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Custom styles for this template -->
+  <link href="css/full-width-pics.css" rel="stylesheet">
+
 </head>
 <body onload="createDot()">
 
-<div id="kaart2" style="background-image: url('kaartKortrijk.PNG'); display: inline-block; background-repeat: no-repeat; width:1000px; height: 1000px; position: relative;">
+<body style="display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 70%;">
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+    <div class="container">
+      <a class="navbar-brand" href="#">Zombie maps</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarResponsive">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item active">
+            <a class="nav-link" href="#">Home
+              <span class="sr-only">(current)</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#kaart2Title">Heatmap</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="Start.html">Logout</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+  <div style="display:block;">
+
+	  <h1 style="margin-top: 75px">Inleiding</h1>
+	  <p>Welcome on our escape and rescue application. We would like to help you with finding a safe way home and help rescue other survivors.</p>
+  </div>
+<h2 id="kaart2Title">Heat map</h2>
+<p>The map below displays the areas which are affected the most by the virus. Keep walking in the green zones and you will get home safely.</p>
+<div id="kaart2" style="background-image: url('kaartKortrijk.PNG'); background-repeat: no-repeat; width:1000px; height: 1000px; position: relative;">
 </div>
 
-<div id="kaart1" style="background-image: url('kaartKortrijk.PNG'); display: inline-block; background-repeat: no-repeat; width:1000px; height: 1000px; position: relative;">
-<canvas id="canvas" style="position: absolute; top: 0px; left: 0px;" width= 1000 height= 10000></canvas>
-</div>
-
-
-
+  <!-- Bootstrap core JavaScript -->
+  <script src="jquery/jquery.min.js"></script>
+  <script src="js/bootstrap.bundle.min.js"></script>
 
 <script>
     let aantalDots = 500;
@@ -23,49 +68,38 @@
     let y_min = 0;
     let x_max = 1000;
     let y_max = 1000;
-    
-    var c = document.getElementById("canvas");
-    var ctx = c.getContext("2d");
 
     function createDot() {
         for (i = 0; i < aantalDots*0.85; i++) {
-            let dotNode1 = document.createElement("img");
             let dotNode2 = document.createElement("img");
-            dotNode1.src = 'dot.png';
             dotNode2.src = 'dot.png';
             let x = randomIntFromInterval(x_min, x_max);
+            console.log("x: " + x);
             let y = randomIntFromInterval(y_min, y_max);
+            console.log("y: " + y);
             let style = "position: absolute; top:"+x+"px; left:"+y+"px; width:10px; height:10px;";
-            dotNode1.style = style;
             dotNode2.style = style;
-            dotNode1.id = "dotA"+i;
             dotNode2.id = "dotB"+i;
-            document.getElementById("kaart1").appendChild(dotNode1);
             document.getElementById("kaart2").appendChild(dotNode2);
         }
 
         for (i = aantalDots*0.85; i < aantalDots; i++) {
-            let dotNode1 = document.createElement("img");
             let dotNode2 = document.createElement("img");
-            dotNode1.src = 'dotgreen.png';
             dotNode2.src = 'dotgreen.png';
             let x = randomIntFromInterval(x_min, x_max);
             let y = randomIntFromInterval(y_min, y_max);
             let style = "position: absolute; top:"+x+"px; left:"+y+"px; width:10px; height:10px;";
-            dotNode1.style = style;
             dotNode2.style = style;
-            dotNode1.id = "dotA"+i;
             dotNode2.id = "dotB"+i;
-            document.getElementById("kaart1").appendChild(dotNode1);
-            document.getElementById("kaart2").appendChild(dotNode2);
-            
-            ctx.beginPath();
-            ctx.arc(y, x, 20, 0, 2 * Math.PI);
-            ctx.stroke();
+            //document.getElementById("kaart2").appendChild(dotNode2);
         }
-        
-        updateDots();
-        colorGrid();
+        loop();
+    }
+    
+    function loop() {
+    	colorGrid();
+    	updateDots();
+    	setTimeout(loop, 5000);
     }
 
     function updateDots(){
@@ -73,17 +107,15 @@
             let top = document.getElementById("dotB"+i).style.top;
             let topWithoutpx = top.substring(0, top.length - 2);
             let left = document.getElementById("dotB"+i).style.left;
-            let leftWithoutpx = left.substring(0, top.length - 2);
+            let leftWithoutpx = left.substring(0, left.length - 2);
             let x = randomIntFromInterval(-3,3);
             let y = randomIntFromInterval(-3,3);
             let updatedTop = parseFloat(topWithoutpx) + parseFloat(x);
             if (updatedTop>0 && updatedTop<y_max){
-            	document.getElementById("dotA"+i).style.top=updatedTop+"px";
                 document.getElementById("dotB"+i).style.top=updatedTop+"px";
             }
             let updatedLeft = parseFloat(leftWithoutpx) + parseFloat(y);
             if (updatedLeft>0 && updatedLeft<x_max){
-            	document.getElementById("dotA"+i).style.left=updatedLeft+"px";
                 document.getElementById("dotB"+i).style.left=updatedLeft+"px";
             }
         }
@@ -92,26 +124,18 @@
             let top = document.getElementById("dotB"+i).style.top;
             let topWithoutpx = top.substring(0, top.length - 2);
             let left = document.getElementById("dotB"+i).style.left;
-            let leftWithoutpx = left.substring(0, top.length - 2);
+            let leftWithoutpx = left.substring(0, left.length - 2);
             let x = randomIntFromInterval(-3,3);
             let y = randomIntFromInterval(-3,3);
             let updatedTop = parseFloat(topWithoutpx) + parseFloat(x);
             if (updatedTop>0 && updatedTop<y_max){
-            	document.getElementById("dotA"+i).style.top=updatedTop+"px";
                 document.getElementById("dotB"+i).style.top=updatedTop+"px";
             }
             let updatedLeft = parseFloat(leftWithoutpx) + parseFloat(y);
             if (updatedLeft>0 && updatedLeft<x_max){
-            	document.getElementById("dotA"+i).style.left=updatedLeft+"px";
                 document.getElementById("dotB"+i).style.left=updatedLeft+"px";
             }
-            
-            ctx.beginPath();
-            ctx.arc(updatedLeft, updatedTop, 20, 0, 2 * Math.PI);
-            ctx.stroke();
         }
-
-        setTimeout(updateDots, 1000);
     }
 
     function randomIntFromInterval(min, max) { // min and max included
@@ -138,11 +162,12 @@
                     
 
                     let top = document.getElementById("dotB"+k).style.top;
-                    let topWithoutpx = parseFloat(top.substring(0, top.length - 2));
+                    let topWithoutpx = parseFloat(top.substring(0, top.length - 2)) +5;
                     let left = document.getElementById("dotB"+k).style.left;
-                    let leftWithoutpx = parseFloat(left.substring(0, top.length - 2));
+                    let leftWithoutpx = parseFloat(left.substring(0, left.length - 2)) +5;
+                    
 
-                    if (topWithoutpx<(i+1)* 1000/aantal_x && topWithoutpx>i*1000/aantal_x && leftWithoutpx<(j+1)*1000/aantal_y && leftWithoutpx >j*1000/aantal_y){
+                    if (topWithoutpx<=(i+1)* 1000/aantal_x && topWithoutpx>=i*1000/aantal_x && leftWithoutpx<=(j+1)*1000/aantal_y && leftWithoutpx >=j*1000/aantal_y){
                         bool=true;
                     }
                     
@@ -154,12 +179,12 @@
                 	gridNode.src = 'green.jpg';
                     document.getElementById("kaart2").appendChild(gridNode);
                 }
-                console.error(bool);
 
             }
         }
-        setTimeout(colorGrid, 1000);
     }
 </script>
+
 </body>
+
 </html>

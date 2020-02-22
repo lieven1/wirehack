@@ -106,8 +106,8 @@
     
     function loop() {
     	colorGrid();
+    	setTimeout(loop, 1000);
     	updateDots();
-    	setTimeout(loop, 5000);
     }
     
     function safeHouses() {

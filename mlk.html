@@ -7,26 +7,43 @@
 </head>
 <body onload="createDot()">
 
-    <div id="background" style="background: url('carte.png'); width:1000px; height: 500px; position: relative;">
+    <div id="background" style="background: url('kaartKortrijk.PNG  '); width:1201px; height: 700px; position: relative;">
         <img src="dot.png" style="position: relative; top:264px; left:258px; width:10px; height:10px;">
     </div>
 
     <script>
         function createDot() {
             for (i = 0; i < 85; i++) {
-                var dotNode = document.createElement("img");
+                let dotNode = document.createElement("img");
                 dotNode.src = 'dot.png';
-                dotNode.style = 'position: relative; top:150px; left:50px; width:10px; height:10px;';
+                let x = randomIntFromInterval(10,1200);
+                let y = randomIntFromInterval(10,690);
+                let style = "position: relative; top:"+x+"px; left:"+y+"px; width:10px; height:10px;";
+                dotNode.style = style;
                 dotNode.id = i
                 document.getElementById("background").appendChild(dotNode);
             }
             for (i = 85; i < 100; i++) {
-                var dotNode = document.createElement("img");
+                let dotNode = document.createElement("img");
                 dotNode.src = 'dotgreen.png';
-                dotNode.style = 'position: relative; top:150px; left:50px; width:10px; height:10px;';
+                let x = randomIntFromInterval(10,1200);
+                let y = randomIntFromInterval(10,690);
+                let style = "position: relative; top:"+x+"px; left:"+y+"px; width:10px; height:10px;";
+                dotNode.style = style;
                 dotNode.id = i
                 document.getElementById("background").appendChild(dotNode);
             }
+            updateDots();
+        }
+
+        function updateDots(){
+                // do whatever you like here
+
+                setTimeout(updateDots, 5000);
+        }
+
+        function randomIntFromInterval(min, max) { // min and max included
+            return Math.floor(Math.random() * (max - min + 1) + min);
         }
     </script>
 </body>

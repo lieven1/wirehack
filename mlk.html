@@ -46,9 +46,13 @@
                 let x = randomIntFromInterval(-5,5);
                 let y = randomIntFromInterval(-5,5);
                 let updatedTop = parseFloat(topWithoutpx) + parseFloat(x);
+                if (updatedTop>0 && updatedTop<1000){
+                    document.getElementById("dot"+i).style.top=updatedTop+"px";
+                }
                 let updatedLeft = parseFloat(leftWithoutpx) + parseFloat(y);
-                document.getElementById("dot"+i).style.top=updatedTop+"px";
-                document.getElementById("dot"+i).style.left=updatedLeft+"px";
+                if (updatedLeft>0 && updatedLeft<1000){
+                    document.getElementById("dot"+i).style.left=updatedLeft+"px";
+                }
             }
 
                 setTimeout(updateDots, 1000);
@@ -61,7 +65,7 @@
         function colorGrid(){
 
             var grids = document.querySelectorAll("[id^='grid']");
-            grids.forEach(grids => {grids.style.opacity=0});
+            grids.forEach(grids => {document.getElementById("background").removeChild(grids)});
 
 
             for (i = 0; i < 10; i++) {
